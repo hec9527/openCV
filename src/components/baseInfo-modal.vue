@@ -3,26 +3,34 @@
     :model-value="$props.visible"
     class="edit-dialog"
     title="基本信息"
+    :lock-scroll="true"
     :show-close="false"
     :width="720"
   >
-    <ElForm ref="formRef" label-position="top" :model="modelData">
+    <ElForm
+      ref="formRef"
+      label-position="top"
+      :model="modelData"
+      :rules="rules"
+    >
       <ElRow>
         <ElCol :span="14">
           <div>
-            <ElFormItem label="姓名">
+            <ElFormItem label="姓名" prop="name">
               <ElInput
                 v-model="modelData.name"
                 placeholder="如：陈晓晓 Alice Chang"
               />
             </ElFormItem>
-            <ElFormItem label="电话">
+            <ElFormItem label="电话" prop="phone">
               <ElInput
-                v-model="modelData.phone"
+                v-model.number="modelData.phone"
+                maxlength="11"
+                minlength="11"
                 placeholder="如：188-8888-8888"
               />
             </ElFormItem>
-            <ElFormItem label="邮箱">
+            <ElFormItem label="邮箱" prop="email">
               <ElInput
                 v-model="modelData.email"
                 placeholder="如：alice@foxmail.com"
@@ -30,31 +38,44 @@
             </ElFormItem>
           </div>
         </ElCol>
-        <ElCol :span="6" :offset="4">
-          <div class="img-placeholder"></div>
+        <ElCol :span="6" :offset="4" prop="avatar">
+          <ElTooltip :content="'添加头像信息，获取更多曝光'" :placement="'top'">
+            <div class="img-placeholder"></div>
+          </ElTooltip>
         </ElCol>
       </ElRow>
       <ElRow>
         <ElCol :span="10">
-          <ElFormItem label="现居城市">
+          <ElFormItem label="现居城市" prop="location">
             <ElInput v-model="modelData.location" placeholder="如：四川成都" />
           </ElFormItem>
         </ElCol>
-        <ElCol :span="10" :offset="2">
-          <ElFormItem label="年龄或者生日">
+        <ElCol :span="10" :offset="2" style="position: relative">
+          <ElFormItem label="年龄或者生日" prop="birthDayOrAge">
             <ElDatePicker
               v-model="modelData.birthDayOrAge"
+              value-format="YYYY-MM-DD"
+              format="YYYY-MM-DD"
               placeholder="请选择"
               type="month"
             />
+            <div v-if="ageType === 'age' && currentAge" class="age-wrap">
+              {{ currentAge }}
+            </div>
           </ElFormItem>
+          <div class="age-type-wrap">
+            <ElRadio.RadioGroup v-model="ageType">
+              <ElRadio label="age">年龄</ElRadio>
+              <ElRadio label="birth">生日</ElRadio>
+            </ElRadio.RadioGroup>
+          </div>
         </ElCol>
       </ElRow>
 
       <div class="section-title">求职意向</div>
       <ElRow>
         <ElCol :span="10">
-          <ElFormItem label="当前状态">
+          <ElFormItem label="当前状态" prop="workStatus">
             <ElSelect v-model="modelData.workStatus" placeholder="请选择">
               <ElSelect.Option
                 v-for="status in WorkStatus"
@@ -67,7 +88,7 @@
           </ElFormItem>
         </ElCol>
         <ElCol :span="10" :offset="2">
-          <ElFormItem label="意向城市">
+          <ElFormItem label="意向城市" prop="intentCity">
             <ElInput
               v-model="modelData.intentCity"
               placeholder="如：四川成都"
@@ -78,7 +99,7 @@
 
       <ElRow>
         <ElCol :span="10">
-          <ElFormItem label="期望职业">
+          <ElFormItem label="期望职业" prop="intentionPosition">
             <ElAutocomplete
               v-model="modelData.intentionPosition"
               :fetch-suggestions="getAutoCompleteData"
@@ -87,25 +108,31 @@
           </ElFormItem>
         </ElCol>
         <ElCol :span="10" :offset="2">
-          <ElFormItem label="期望薪资" class="salary-item">
+          <ElFormItem label="期望薪资" class="salary-item" prop="minSalary">
             <ElSelect v-model="modelData.minSalary" placeholder="最低薪资">
-              <ElSelect.Option v-for="n in 100" :key="n" :value="`${n}K`">
-                <span>{{ n === 100 ? '100K以上' : `${n}K` }}</span>
+              <ElSelect.Option
+                v-for="n in 100"
+                :key="n"
+                :value="n === 100 ? '100K以上' : `${n}k`"
+              >
+                <span>{{ n === 100 ? '100K以上' : `${n}k` }}</span>
               </ElSelect.Option>
             </ElSelect>
-            <ElText>至</ElText>
-            <ElSelect v-model="modelData.maxSalary" placeholder="最高薪资">
-              <template v-for="n in 100" :key="n">
-                <ElSelect.Option
-                  v-if="
-                    !modelData.minSalary || n > parseInt(modelData.minSalary)
-                  "
-                  :value="`${n}K`"
-                >
-                  <span>{{ n === 100 ? '100K以上' : `${n}K` }}</span>
-                </ElSelect.Option>
-              </template>
-            </ElSelect>
+            <template v-if="parseInt(modelData.minSalary) < 100">
+              <ElText>至</ElText>
+              <ElSelect v-model="modelData.maxSalary" placeholder="最高薪资">
+                <template v-for="n in 100" :key="n">
+                  <ElSelect.Option
+                    v-if="
+                      !modelData.minSalary || n > parseInt(modelData.minSalary)
+                    "
+                    :value="`${n}k`"
+                  >
+                    <span>{{ n === 100 ? '100K以上' : `${n}k` }}</span>
+                  </ElSelect.Option>
+                </template>
+              </ElSelect>
+            </template>
           </ElFormItem>
         </ElCol>
       </ElRow>
@@ -113,7 +140,9 @@
 
     <template #footer>
       <ElButton @click.stop="$emit('close')">取消</ElButton>
-      <ElButton :type="'primary'" @click="handleSubmit(formRef)">保存</ElButton>
+      <ElButton :type="'primary'" @click.stop="handleSubmit(formRef)"
+        >保存</ElButton
+      >
     </template>
   </ElDialog>
 </template>
@@ -126,8 +155,11 @@ import {
   ElDialog,
   ElInput,
   ElForm,
+  ElRadio,
   ElSelect,
   ElButton,
+  ElMessage,
+  ElTooltip,
   ElFormItem,
   ElDatePicker,
   ElAutocomplete,
@@ -135,18 +167,42 @@ import {
 } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
 import { WorkStatus, JobPosition } from '@const/index';
-import { reactive, watch, ref } from 'vue';
+import { reactive, watch, ref, computed } from 'vue';
 import { BaseInfo } from '@typings/index';
 
 type IEmit = {
   (e: 'close'): void;
+  (e: 'save', data: BaseInfo): void;
 };
 
+const emits = defineEmits<IEmit>();
 const props = defineProps<{ visible: boolean; data: BaseInfo }>();
-defineEmits<IEmit>();
 
 const modelData = reactive(props.data);
 const formRef = ref<FormInstance>();
+const ageType = ref<'age' | 'birth'>('birth');
+
+const rules = reactive<FormRules<BaseInfo>>({
+  name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+    { min: 2, max: 75, message: '姓名长度限制2到75个汉字', trigger: 'blur' },
+  ],
+  phone: [
+    { required: true, message: '请填写联系电话，方便联系', trigger: 'blur' },
+  ],
+  email: [
+    {
+      required: true,
+      message: '请填写邮箱，用于交流和接收office',
+      trigger: 'blur',
+    },
+  ],
+  birthDayOrAge: [{ required: true, message: '请选择出生日期' }],
+  minSalary: [{ required: true, message: '请选择期望薪资' }],
+  intentionPosition: [
+    { required: true, message: '请选择或者输入期望工作岗位' },
+  ],
+});
 
 const getAutoCompleteData: AutocompleteFetchSuggestions = (query, callback) => {
   const data = JobPosition.filter((job) => {
@@ -160,15 +216,36 @@ const getAutoCompleteData: AutocompleteFetchSuggestions = (query, callback) => {
 const handleSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
-    console.log(modelData);
-
     if (valid) {
-      //
-    } else {
-      console.log('validate error: ', fields);
+      const data = { ...modelData };
+      if (ageType.value === 'age') {
+        data.birthDayOrAge = currentAge.value;
+      }
+
+      emits('save', data);
+    } else if (fields) {
+      const key = Object.keys(fields as object)[0];
+      ElMessage({ type: 'error', message: fields[key][0].message });
     }
   });
 };
+
+const currentAge = computed<string>(() => {
+  if (!modelData.birthDayOrAge) return '';
+  const now = new Date();
+  const inputDate = new Date(modelData.birthDayOrAge);
+  let diffInYears = now.getFullYear() - inputDate.getFullYear();
+
+  if (
+    now.getMonth() < inputDate.getMonth() ||
+    (now.getMonth() === inputDate.getMonth() &&
+      now.getDate() < inputDate.getDate())
+  ) {
+    diffInYears -= 1;
+  }
+
+  return diffInYears + '岁';
+});
 
 watch([modelData], () => {
   if (parseInt(modelData.minSalary) == 100) {
@@ -179,7 +256,7 @@ watch([modelData], () => {
     modelData.maxSalary &&
     parseInt(modelData.maxSalary) < parseInt(modelData.minSalary)
   ) {
-    modelData.maxSalary = modelData.minSalary + 1;
+    modelData.maxSalary = parseInt(modelData.minSalary) + 1 + 'k';
   }
 });
 </script>
@@ -200,6 +277,27 @@ watch([modelData], () => {
   .el-autocomplete,
   .el-date-editor.el-input {
     width: 100%;
+  }
+
+  .age-type-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    .el-radio:not(:last-of-type) {
+      height: 22px;
+      margin-right: 12px;
+    }
+  }
+
+  .age-wrap {
+    position: absolute;
+    background-color: #fff;
+    width: calc(100% - 60px);
+    height: calc(100% - 4px);
+    line-height: 28px;
+    margin-left: 32px;
+    pointer-events: none;
   }
 
   // TODO delete

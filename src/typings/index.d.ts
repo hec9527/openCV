@@ -9,7 +9,6 @@ export interface BaseInfo {
   email: string;
   location: string;
   intentionPosition: string;
-  intentionSalary: string;
   intentCity: string;
   avatar?: string;
   workStatus: string;

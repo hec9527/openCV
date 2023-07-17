@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 :root {
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
   line-height: 1.5;
@@ -49,5 +50,18 @@ h1 {
     font-size: 14px;
     font-weight: 700;
     margin: 12px 0;
+  }
+
+  .el-overlay-dialog {
+    display: flex;
+
+    > .el-dialog {
+      margin: auto;
+
+      .el-dialog__body {
+        max-height: 70vh;
+        overflow: auto;
+      }
+    }
   }
 }

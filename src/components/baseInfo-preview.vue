@@ -11,7 +11,10 @@
     </div>
     <div class="positionAndSalary row">
       <span class="position">{{ state.intentionPosition }}</span>
-      <span class="salary">{{ state.intentionSalary }}</span>
+      <span class="salary">
+        {{ state.minSalary }}
+        {{ state.maxSalary }}
+      </span>
     </div>
     <img v-if="state.avatar" class="avatar" :src="state.avatar" />
 
@@ -21,6 +24,7 @@
       :close-on-press-escape="false"
       :data="state"
       @close="visible = false"
+      @save="saveToStore"
     />
   </div>
 </template>
@@ -38,6 +42,11 @@ const state = computed(
     (store.state.find((model) => model.modelType === 'baseInfo') ||
       {}) as BaseInfo,
 );
+
+const saveToStore = (data: BaseInfo) => {
+  store.saveBaseInfo(data);
+  visible.value = false;
+};
 </script>
 
 <style lang="less">
