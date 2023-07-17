@@ -16,17 +16,25 @@ export interface BaseInfo {
   maxSalary?: string;
 }
 
-export interface Education {
-  modelType: 'education';
+export interface EducationCareer {
+  /** 学校名称 */
   school: string;
   major: string;
   educationalBackground: string;
+  /** 学院 */
+  college?: string;
   /** 非/全日制 */
-  educationalType: string;
-  schoolTags: string[];
+  educationalType?: string;
+  schoolTags?: string[];
+  city?: string;
   startTime: string;
   endTime: string;
-  description: string;
+  description?: string;
+}
+
+export interface Education {
+  modelType: 'education';
+  career: EducationCareer[];
 }
 
 export interface WorkCareer {

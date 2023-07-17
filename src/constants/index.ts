@@ -1,5 +1,21 @@
 export const WorkStatus = ['在职', '离职', '应届生', '待业', '在读'];
 
+export const SchoolTags = ['985', '211', '双一流', '常春藤'];
+
+export const EducationType = ['全日制', '非全日制', '交流/交换生'];
+
+export const EducationBackground = [
+  '小学',
+  '初中',
+  '高中',
+  '中专',
+  '大专',
+  '本科',
+  '硕士',
+  '博士',
+  'MBA',
+];
+
 export const JobPosition = [
   '软件工程师',
   '数据分析师',
