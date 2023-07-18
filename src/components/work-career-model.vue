@@ -1,8 +1,8 @@
 <template>
   <ElDialog
     :model-value="$props.visible"
-    class="edit-dialog education-dialog"
-    title="教育经历"
+    class="edit-dialog work-dialog"
+    title="工作经历"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :lock-scroll="true"
@@ -16,61 +16,25 @@
       :rules="rules"
     >
       <ElRow>
-        <ElCol :span="10">
-          <ElFormItem label="学校" prop="school">
-            <ElInput v-model="modelData.school" placeholder="请输入" />
+        <ElCol :span="22">
+          <ElFormItem label="公司名称" prop="companyName">
+            <ElInput v-model="modelData.companyName" placeholder="请输入" />
           </ElFormItem>
         </ElCol>
-        <ElCol :offset="2" :span="12">
-          <ElFormItem label="学校tag" prop="schoolTags">
-            <ElCheckbox.CheckboxGroup v-model="modelData.schoolTags">
-              <ElCheckbox v-for="tag in SchoolTags" :key="tag" :label="tag">{{
-                tag
-              }}</ElCheckbox>
-            </ElCheckbox.CheckboxGroup>
+      </ElRow>
+
+      <ElRow>
+        <ElCol :span="22">
+          <ElFormItem label="职位名称" prop="position">
+            <ElInput v-model="modelData.position" placeholder="请输入" />
           </ElFormItem>
         </ElCol>
       </ElRow>
 
       <ElRow>
         <ElCol :span="10">
-          <ElFormItem label="专业" prop="major">
-            <ElInput v-model="modelData.major" placeholder="请输入" />
-          </ElFormItem>
-        </ElCol>
-        <ElCol :offset="2" :span="10">
-          <ElFormItem
-            label="学历"
-            class="education-type"
-            prop="educationalBackground"
-          >
-            <ElSelect v-model="modelData.educationalBackground">
-              <ElSelect.Option
-                v-for="opt in EducationBackground"
-                :key="opt"
-                :value="opt"
-              >
-                {{ opt }}
-              </ElSelect.Option>
-            </ElSelect>
-
-            <ElSelect v-model="modelData.educationalType">
-              <ElSelect.Option
-                v-for="opt in EducationType"
-                :key="opt"
-                :value="opt"
-              >
-                {{ opt }}
-              </ElSelect.Option>
-            </ElSelect>
-          </ElFormItem>
-        </ElCol>
-      </ElRow>
-
-      <ElRow>
-        <ElCol :span="10">
-          <ElFormItem label="学院" prop="college">
-            <ElInput v-model="modelData.college" placeholder="请输入" />
+          <ElFormItem label="所在部门" prop="department">
+            <ElInput v-model="modelData.department" placeholder="请输入" />
           </ElFormItem>
         </ElCol>
         <ElCol :offset="2" :span="10">
@@ -82,7 +46,7 @@
 
       <ElRow>
         <ElCol :span="10">
-          <ElFormItem label="就读时间" prop="startTime">
+          <ElFormItem label="工作时间" prop="startTime">
             <ElDatePicker
               v-model="modelData.startTime"
               placeholder="请选择"
@@ -134,43 +98,39 @@ import {
   ElInput,
   ElDialog,
   ElButton,
-  ElSelect,
   ElMessage,
-  ElCheckbox,
   ElFormItem,
   ElDatePicker,
 } from 'element-plus';
-import { SchoolTags, EducationBackground, EducationType } from '@const/index';
 import RichTextEditor, { type IExpose } from './rich-text-editor.vue';
 import disableDateFromNow from '@/utils/disableDateFromNow';
 import { FormInstance, FormRules } from 'element-plus';
-import { EducationCareer } from '@typings/index';
+import { WorkCareer } from '@typings/index';
 import { reactive, ref, watch } from 'vue';
 
 type IProps = {
   visible: boolean;
-  data: EducationCareer;
+  data: WorkCareer;
   index?: number; // index表示修改的学历信息，为空表示新增
 };
 
 type IEmits = {
   (e: 'close'): void;
-  (e: 'save', data: EducationCareer, index?: number): void;
+  (e: 'save', data: WorkCareer, index?: number): void;
 };
 
 const editor = ref<IExpose>();
 const props = defineProps<IProps>();
 const emits = defineEmits<IEmits>();
 const formRef = ref<FormInstance>();
-const modelData = ref<EducationCareer>(props.data || {});
-const rules = reactive<FormRules<EducationCareer>>({
-  school: [{ required: true, message: '请输入学校名称' }],
-  major: [
-    { required: true, message: '请选择专业，符合岗位要求的专业能获得更多青睐' },
-  ],
-  educationalBackground: { required: true, message: '请选择学历' },
-  startTime: { required: true, message: '请选择就读开始时间' },
-  endTime: { required: true, message: '请选择就读结束时间' },
+const modelData = ref<WorkCareer>(props.data || {});
+const rules = reactive<FormRules<WorkCareer>>({
+  companyName: { required: true, message: '请输入公司名称' },
+  position: {
+    required: true,
+    message: '请输入职位名称，匹配的职位名称更容易通过简历筛选哦',
+  },
+  startTime: { required: true, message: '请选择工作开始结束时间' },
 });
 
 watch([props], () => {
@@ -178,7 +138,7 @@ watch([props], () => {
     modelData.value = props.data;
   } else {
     formRef.value?.resetFields();
-    modelData.value = {} as EducationCareer;
+    modelData.value = {} as WorkCareer;
   }
 });
 
@@ -200,7 +160,7 @@ const handleSubmit = async (formEl: FormInstance | undefined) => {
 </script>
 
 <style lang="less">
-.education-dialog {
+.work-dialog {
   .education-type .el-form-item__content {
     flex-wrap: nowrap;
     .el-select:nth-of-type(2) {

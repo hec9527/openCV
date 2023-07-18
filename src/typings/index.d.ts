@@ -38,10 +38,18 @@ export interface Education {
 }
 
 export interface WorkCareer {
-  modelType: 'workCareer';
   companyName: string;
   position: string;
   department: string;
+  city?: string;
+  startTime: string;
+  endTime: string;
+  description?: string;
+}
+
+export interface WorkInfo {
+  modelType: 'workInfo';
+  career: WorkCareer[];
 }
 
 export interface OtherCareer {
@@ -81,10 +89,10 @@ export interface SelfEvaluation {
 export type CVModel =
   | BaseInfo
   | Education
-  | WorkCareer
+  | WorkInfo
+  | ProjectCareer
   | OtherCareer
   | OtherSkill
-  | ProjectCareer
   | (SelfEvaluation & { layout?: string });
 
 export type CVInfo = CVModel[];

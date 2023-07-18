@@ -63,4 +63,58 @@ h1 {
       }
     }
   }
+
+  .model-section {
+    &-title {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0 4px;
+
+      .right,
+      .left {
+        display: flex;
+      }
+
+      .main-title {
+        font-weight: 12px;
+        font-weight: 600;
+      }
+
+      .right span {
+        font-size: 12px;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+
+        &:last-of-type::before {
+          content: '-';
+          margin: 0 4px;
+        }
+      }
+
+      .sub-title {
+        font-size: 12px;
+
+        &::before {
+          content: '-';
+        }
+
+        span {
+          margin-left: 4px;
+        }
+      }
+    }
+
+    &-description {
+      ul {
+        margin: 0;
+        padding-left: 2em;
+        margin-top: 4px;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+  }
 }

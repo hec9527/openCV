@@ -12,8 +12,8 @@
     <div class="positionAndSalary row">
       <span class="position">{{ state.intentionPosition }}</span>
       <span class="salary">
-        {{ state.minSalary }}
-        {{ state.maxSalary }}
+        <span>{{ state.minSalary }}</span>
+        <span>{{ state.maxSalary }}</span>
       </span>
     </div>
     <img v-if="state.avatar" class="avatar" :src="state.avatar" />
@@ -72,6 +72,10 @@ const saveToStore = (data: BaseInfo) => {
         margin: 0 4px;
       }
     }
+  }
+
+  .salary > span:last-of-type::before {
+    content: '-';
   }
 
   .avatar {

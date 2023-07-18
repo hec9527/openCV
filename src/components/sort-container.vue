@@ -37,7 +37,6 @@ import { ModelKey, AnyFunction } from '@typings/index';
 
 type IProps = {
   type?: 'section' | 'inline';
-  modelKey?: ModelKey;
   title?: string;
   disableMoveUp?: boolean;
   disableMoveDown?: boolean;

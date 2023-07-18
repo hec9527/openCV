@@ -5,8 +5,8 @@
     title="教育经历"
     :disable-move-up="currentModelIndex === 1"
     :disable-move-down="currentModelIndex === store.state.length - 1"
-    @add-click="(index = undefined), addCareer()"
-    @delete="deleteModel"
+    @add-click="addCareer"
+    @delete="store.deleteModel('education')"
     @move-top="sortModel.moveUp"
     @move-down="sortModel.moveDown"
   >
@@ -14,7 +14,7 @@
       <div
         v-for="(career, _index) in educations.career"
         :key="career.school + career.major + career.startTime + career.endTime"
-        class="education-careers"
+        class="education-careers model-section"
         @click="(index = _index), (visible = true)"
       >
         <SortContainer
@@ -25,12 +25,12 @@
           @move-down="sortCareer.moveDown(_index)"
           @delete="educations.career.splice(_index, 1)"
         >
-          <div class="education-career-title">
+          <div class="model-section-title">
             <div class="left">
-              <div class="school">
+              <div class="main-title">
                 <span>{{ career.school }}</span>
               </div>
-              <div class="major">
+              <div class="sub-title">
                 <span>{{ career.major }}</span>
                 <span>{{ career.educationalType }}</span>
                 <span>{{ career.educationalBackground }}</span>
@@ -43,7 +43,7 @@
           </div>
           <div
             v-if="career.description"
-            class="education-career-description"
+            class="model-section-description"
             v-html="career.description"
           ></div>
         </SortContainer>
@@ -71,6 +71,7 @@ import EducationModal from './education-modal.vue';
 import useSortModel from '@/hook/useSortModel';
 import useSortCareer from '@/hook/useSortCareer';
 import useCurrentModelIndex from '@/hook/useCurrentModelIndex';
+import useSaveCareer from '@/hook/useSaveCareer';
 
 const index = ref<number | undefined>(undefined);
 const visible = ref(false);
@@ -82,7 +83,8 @@ const educations = computed(() => {
   return store.state.find((s) => s.modelType === 'education') as Education;
 });
 
-const sortCareer = useSortCareer(educations.value.career);
+const sortCareer = useSortCareer<EducationCareer>(educations.value.career);
+const saveCareer = useSaveCareer<EducationCareer>(educations.value.career);
 
 const currentCareer = computed(() => {
   return (
@@ -95,68 +97,8 @@ const addCareer = () => {
   visible.value = true;
 };
 
-const deleteModel = () => {
-  const index = store.state.findIndex((c) => c == educations.value);
-  store.state.splice(index, 1);
-};
-
 const saveToStore = (data: EducationCareer, index?: number) => {
-  console.log({ data, index });
-  store.saveEducationCareer(data, index);
+  saveCareer(data, index);
   visible.value = false;
 };
 </script>
-
-<style lang="less">
-.education-preview {
-  .education-career-title {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0 4px;
-
-    .right,
-    .left {
-      display: flex;
-    }
-
-    .school {
-      font-weight: 12px;
-      font-weight: 600;
-    }
-
-    .right span {
-      font-size: 12px;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-
-      &:last-of-type::before {
-        content: '-';
-        margin: 0 4px;
-      }
-    }
-
-    .major {
-      font-size: 12pxs;
-
-      &::before {
-        content: '-';
-      }
-      span {
-        margin-left: 4px;
-      }
-    }
-  }
-
-  .education-career-description {
-    ul {
-      margin: 0;
-      padding-left: 2em;
-      margin-top: 4px;
-    }
-    p {
-      margin: 0;
-      line-height: 1.4;
-    }
-  }
-}
-</style>

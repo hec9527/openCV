@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 
-export default function useSortCareer(arr: any[]) {
+export default function useSortCareer<T extends any = any>(arr: T[]) {
   const maxIndex = computed(() => arr.length - 1);
 
   const moveDown = (index: number) => {

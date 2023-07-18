@@ -1,6 +1,12 @@
 import { Ref, ref } from 'vue';
 import { defineStore } from 'pinia';
-import { CVModel, BaseInfo, EducationCareer, Education } from '@typings/index';
+import {
+  CVModel,
+  BaseInfo,
+  EducationCareer,
+  Education,
+  ModelKey,
+} from '@typings/index';
 
 const defaultStore: CVModel[] = [
   {
@@ -44,6 +50,27 @@ const defaultStore: CVModel[] = [
       },
     ],
   },
+  {
+    modelType: 'workInfo',
+    career: [
+      {
+        companyName: '成都逆风物流有限公司',
+        department: '物流配送部',
+        position: '配送专员',
+        startTime: '2022.09',
+        endTime: '2023.01',
+        description: '比顺丰慢点的逆风物流，比顺分快点的顺手拿走',
+      },
+      {
+        companyName: '成都有钱外借有限公司',
+        department: '企业金融部',
+        position: '信贷专员',
+        startTime: '2022.09',
+        endTime: '2023.01',
+        description: '要借钱么，我们公司可以借哦',
+      },
+    ],
+  },
 ];
 
 export const useEditStore = defineStore('cvData', () => {
@@ -58,21 +85,12 @@ export const useEditStore = defineStore('cvData', () => {
     }
   };
 
-  const saveEducationCareer = (data: EducationCareer, index?: number) => {
-    const model = state.value.find((m) => m.modelType === 'education') as
-      | Education
-      | undefined;
-
-    if (model) {
-      if (index !== undefined) {
-        model.career[index] = data;
-      } else {
-        model.career.push(data);
-      }
-    } else {
-      state.value.push({ modelType: 'education', career: [data] });
+  const deleteModel = (modelKey: ModelKey) => {
+    const index = state.value.findIndex((m) => m.modelType === modelKey);
+    if (index !== undefined) {
+      state.value.splice(index, 1);
     }
   };
 
-  return { state, saveBaseInfo, saveEducationCareer };
+  return { state, saveBaseInfo, deleteModel };
 });

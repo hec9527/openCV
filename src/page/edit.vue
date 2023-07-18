@@ -4,6 +4,7 @@
       <div v-for="data in store.state" :key="data.modelType">
         <BaseInfoPreview v-if="data.modelType === 'baseInfo'" />
         <EducationPreview v-if="data.modelType === 'education'" />
+        <WorkCareerPreview v-if="data.modelType === 'workInfo'" />
       </div>
     </div>
   </div>
@@ -13,6 +14,7 @@
 import { useEditStore } from '@/store/index';
 import BaseInfoPreview from '@comp/baseInfo-preview.vue';
 import EducationPreview from '@comp/education-preview.vue';
+import WorkCareerPreview from '@comp/work-career-preview.vue';
 
 const store = useEditStore();
 </script>
