@@ -87,8 +87,8 @@
               v-model="modelData.startTime"
               placeholder="请选择"
               type="month"
-              format="YYYY/MM"
-              value-format="YYYY/MM"
+              format="YYYY.MM"
+              value-format="YYYY.MM"
             />
           </ElFormItem>
         </ElCol>
@@ -98,8 +98,8 @@
               v-model="modelData.endTime"
               placeholder="请选择"
               type="month"
-              format="YYYY/MM"
-              value-format="YYYY/MM"
+              format="YYYY.MM"
+              value-format="YYYY.MM"
             />
           </ElFormItem>
         </ElCol>
@@ -107,7 +107,11 @@
 
       <ElRow style="z-index: 1">
         <ElFormItem label="经历描述">
-          <RichTextEditor ref="editor" placeholder="请输入学历相关描述..." />
+          <RichTextEditor
+            ref="editor"
+            placeholder="请输入学历相关描述..."
+            :content="$props.data.description"
+          />
         </ElFormItem>
       </ElRow>
     </ElForm>
@@ -139,7 +143,7 @@ import { SchoolTags, EducationBackground, EducationType } from '@const/index';
 import RichTextEditor, { type IExpose } from './rich-text-editor.vue';
 import { FormInstance, FormRules } from 'element-plus';
 import { Education } from '@typings/index';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
 type EducationCareer = Education['career'][number];
 
@@ -158,7 +162,7 @@ const editor = ref<IExpose>();
 const props = defineProps<IProps>();
 const emits = defineEmits<IEmits>();
 const formRef = ref<FormInstance>();
-const modelData = reactive<EducationCareer>(props.data || {});
+const modelData = ref<EducationCareer>(props.data || {});
 const rules = reactive<FormRules<EducationCareer>>({
   school: [{ required: true, message: '请输入学校名称' }],
   major: [
@@ -169,11 +173,23 @@ const rules = reactive<FormRules<EducationCareer>>({
   endTime: { required: true, message: '请选择就读结束时间' },
 });
 
+watch([props], () => {
+  if (props.data && props.index != undefined) {
+    modelData.value = props.data;
+  } else {
+    formRef.value?.resetFields();
+    modelData.value = {} as EducationCareer;
+  }
+});
+
 const handleSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      const data = { ...modelData, description: editor.value?.content };
+      const data = {
+        ...modelData.value,
+        description: editor.value?.getContent(),
+      };
       emits('save', data, props.index);
     } else if (fields) {
       const key = Object.keys(fields as object)[0];

@@ -67,7 +67,7 @@ export const useEditStore = defineStore('cvData', () => {
       if (index !== undefined) {
         model.career[index] = data;
       } else {
-        model.career = [data];
+        model.career.push(data);
       }
     } else {
       state.value.push({ modelType: 'education', career: [data] });

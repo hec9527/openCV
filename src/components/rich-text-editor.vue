@@ -17,34 +17,45 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, ref, shallowRef } from 'vue';
+import { onBeforeUnmount, ref, shallowRef, watch } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { IDomEditor } from '@wangeditor/editor';
 import '@wangeditor/editor/dist/css/style.css';
 
 type IProps = {
   placeholder?: string;
+  content?: string;
+};
+
+export type IExpose = {
+  getContent(): string;
 };
 
 const props = withDefaults(defineProps<IProps>(), {
   placeholder: '请输入内容...',
+  content: '',
 });
 
-const editorRef = shallowRef();
+const editorRef = shallowRef<IDomEditor>();
 const valueHtml = ref('');
 const toolbarConfig = {};
 const editorConfig = { placeholder: props.placeholder };
 
 const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor;
+  editor.setHtml(props.content);
 };
 
-export type IExpose = {
-  content: string;
+const getContent = () => {
+  return editorRef.value?.getHtml();
 };
+
+watch(props, () => {
+  editorRef.value?.setHtml(props.content);
+});
 
 defineExpose({
-  content: valueHtml.value,
+  getContent,
 });
 
 onBeforeUnmount(() => {
