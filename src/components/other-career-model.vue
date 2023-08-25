@@ -17,7 +17,7 @@
     >
       <ElRow>
         <ElCol :span="22">
-          <ElFormItem label="组织/活动名称" prop="projectName">
+          <ElFormItem label="组织/活动名称" prop="organizationOrActiveName">
             <ElInput
               v-model="modelData.organizationOrActiveName"
               placeholder="请输入"
@@ -33,7 +33,7 @@
           </ElFormItem>
         </ElCol>
         <ElCol :offset="2" :span="10">
-          <ElFormItem label="所在城市" prop="city">
+          <ElFormItem label="所在城市" prop="location">
             <ElInput v-model="modelData.location" placeholder="请输入" />
           </ElFormItem>
         </ElCol>

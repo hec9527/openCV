@@ -7,6 +7,10 @@
         <WorkCareerPreview v-else-if="data.modelType === 'workInfo'" />
         <ProjectCareerPreview v-else-if="data.modelType === 'projectInfo'" />
         <OtherCareerPreview v-else-if="data.modelType === 'otherCareer'" />
+        <OtherSkillPreview v-else-if="data.modelType === 'otherSkill'" />
+        <selfEvaluationPreview
+          v-else-if="data.modelType === 'selfEvaluation'"
+        />
       </div>
     </div>
   </div>
@@ -20,6 +24,8 @@ import EducationPreview from '@comp/education-preview.vue';
 import WorkCareerPreview from '@comp/work-career-preview.vue';
 import ProjectCareerPreview from '@/components/project-career-preview.vue';
 import OtherCareerPreview from '@/components/other-career-preview.vue';
+import OtherSkillPreview from '@/components/other-skill-preview.vue';
+import selfEvaluationPreview from '@/components/self-evaluation-preview.vue';
 
 const store = useEditStore();
 </script>

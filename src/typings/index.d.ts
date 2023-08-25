@@ -68,11 +68,10 @@ export interface OtherCareer {
 
 export interface OtherSkill {
   modelType: 'otherSkill';
-  professional: string[];
-  universal: string[];
-  Certificate: string[];
-  language: string[];
-  Hobby: string[];
+  skill?: string;
+  certificate?: string;
+  language?: string;
+  hobby?: string;
 }
 
 export interface ProjectCareer {

@@ -74,7 +74,7 @@ import useCurrentModelIndex from '@/hook/useCurrentModelIndex';
 import useSaveCareer from '@/hook/useSaveCareer';
 
 const index = ref<number | undefined>(undefined);
-const visible = ref(false || true);
+const visible = ref(false);
 const store = useEditStore();
 const sortModel = useSortModel('otherCareer');
 const currentModelIndex = useCurrentModelIndex('otherCareer');

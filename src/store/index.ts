@@ -100,6 +100,17 @@ const defaultStore: CVModel[] = [
       },
     ],
   },
+  {
+    modelType: 'otherSkill',
+    certificate: '全国英语大赛， 计算机二级，会计资格证，教师资格证',
+    hobby: '唱，跳，rap，篮球',
+    language: 'CET-4,CET6,日语二级',
+  },
+  {
+    modelType: 'selfEvaluation',
+    description:
+      '面试官你好，我是练习时长两年半的前端开发练习生，我喜欢唱跳，rap，篮球',
+  },
 ];
 
 export const useEditStore = defineStore('cvData', () => {

@@ -40,7 +40,23 @@
         </ElCol>
         <ElCol :span="6" :offset="4" prop="avatar">
           <ElTooltip :content="'添加头像信息，获取更多曝光'" :placement="'top'">
-            <div class="img-placeholder"></div>
+            <label class="avatar-warp" for="avatar-upload">
+              <input
+                id="avatar-upload"
+                type="file"
+                @change="handleSelectAvatar"
+              />
+              <img v-if="modelData.avatar" :src="modelData.avatar" />
+              <div v-else class="img-placeholder">
+                <upload-picture
+                  :stroke-width="3"
+                  theme="outline"
+                  size="24"
+                  fill="#333"
+                />
+                <span>点击上传</span>
+              </div>
+            </label>
           </ElTooltip>
         </ElCol>
       </ElRow>
@@ -169,6 +185,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { WorkStatus, JobPosition } from '@const/index';
 import { reactive, watch, ref, computed } from 'vue';
 import { BaseInfo } from '@typings/index';
+import { UploadPicture } from '@icon-park/vue-next';
 
 type IEmit = {
   (e: 'close'): void;
@@ -211,6 +228,31 @@ const getAutoCompleteData: AutocompleteFetchSuggestions = (query, callback) => {
     return { value: job };
   });
   callback(data);
+};
+
+const handleSelectAvatar = (event: any) => {
+  const file = event.target?.files?.[0];
+  const TWO_MB = 2 * 1024 * 1024;
+  if (file) {
+    console.log(file);
+    if (file.size > TWO_MB) {
+      ElMessage({
+        type: 'error',
+        message: '本地存储空间有限，最大支持2MB图片',
+      });
+    } else {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const data = e.target?.result;
+        if (data) {
+          modelData.avatar = data;
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
 };
 
 const handleSubmit = async (formEl: FormInstance | undefined) => {
@@ -300,12 +342,42 @@ watch([modelData], () => {
     pointer-events: none;
   }
 
-  // TODO delete
-  .img-placeholder {
+  .avatar-warp {
     width: 150px;
     height: 200px;
-    margin-top: 30px;
-    background: #6665;
+    display: block;
+    cursor: pointer;
+
+    #avatar-upload {
+      display: none;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      overflow: hidden;
+    }
+
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      background: #ccc5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #999;
+
+      svg {
+        width: 40px;
+        height: 40px;
+
+        path {
+          stroke: #999;
+          fill: #999;
+        }
+      }
+    }
   }
 }
 </style>
