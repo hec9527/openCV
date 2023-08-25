@@ -1,12 +1,6 @@
 import { Ref, ref } from 'vue';
 import { defineStore } from 'pinia';
-import {
-  CVModel,
-  BaseInfo,
-  EducationCareer,
-  Education,
-  ModelKey,
-} from '@typings/index';
+import { CVModel, BaseInfo, ModelKey } from '@typings/index';
 
 const defaultStore: CVModel[] = [
   {
@@ -68,6 +62,41 @@ const defaultStore: CVModel[] = [
         startTime: '2022.09',
         endTime: '2023.01',
         description: '要借钱么，我们公司可以借哦',
+      },
+    ],
+  },
+  {
+    modelType: 'projectInfo',
+    career: [
+      {
+        projectName: '黄河装净水器工程',
+        role: '监理',
+        location: '河南 郑州',
+        startTime: '2023.09',
+        endTime: '2023.10',
+        description: '黄河装净水器工程',
+      },
+      {
+        projectName: '珠穆朗玛峰装电梯',
+        role: '投资人',
+        location: '西藏 拉萨',
+        startTime: '2023.09',
+        endTime: '2023.10',
+        description: '珠穆朗玛峰装电梯',
+      },
+    ],
+  },
+  {
+    modelType: 'otherCareer',
+    career: [
+      {
+        organizationOrActiveName: '国旗护卫队',
+        role: '擎旗手',
+        location: '四川成都',
+        startTime: '2016.09',
+        endTime: '2018.06',
+        description:
+          '国旗护卫队是学校组织的一只训练有素，负责学校升旗、迎新、以及其他校园活动的半军事化管理的队伍',
       },
     ],
   },

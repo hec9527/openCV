@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ModelKey, AnyFunction } from '@typings/index';
+import { AnyFunction } from '@typings/index';
 
 type IProps = {
   type?: 'section' | 'inline';
@@ -61,10 +61,13 @@ defineProps<IProps>();
     border-bottom: 1px solid #2d2d2d;
   }
 
-  &:hover > .sort-tool {
-    display: flex;
-  }
+  &:hover {
+    cursor: pointer;
 
+    > .sort-tool {
+      display: flex;
+    }
+  }
   &.section-model {
     &:hover {
       background-color: #f5f5f5;

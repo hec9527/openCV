@@ -25,10 +25,8 @@ const router = useRouter();
 <style lang="less">
 .nav-bar {
   height: 60px;
-  background: #0007;
 
   .logo {
-    // border-radius: 100%;
     cursor: pointer;
     overflow: hidden;
   }

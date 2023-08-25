@@ -56,6 +56,11 @@ const saveToStore = (data: BaseInfo) => {
   align-items: center;
   position: relative;
   padding: 32px 24px 24px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
 
   .name {
     font-weight: 700;

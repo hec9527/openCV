@@ -3,8 +3,10 @@
     <div class="page-main">
       <div v-for="data in store.state" :key="data.modelType">
         <BaseInfoPreview v-if="data.modelType === 'baseInfo'" />
-        <EducationPreview v-if="data.modelType === 'education'" />
-        <WorkCareerPreview v-if="data.modelType === 'workInfo'" />
+        <EducationPreview v-else-if="data.modelType === 'education'" />
+        <WorkCareerPreview v-else-if="data.modelType === 'workInfo'" />
+        <ProjectCareerPreview v-else-if="data.modelType === 'projectInfo'" />
+        <OtherCareerPreview v-else-if="data.modelType === 'otherCareer'" />
       </div>
     </div>
   </div>
@@ -12,9 +14,12 @@
 
 <script lang="ts" setup>
 import { useEditStore } from '@/store/index';
+
 import BaseInfoPreview from '@comp/baseInfo-preview.vue';
 import EducationPreview from '@comp/education-preview.vue';
 import WorkCareerPreview from '@comp/work-career-preview.vue';
+import ProjectCareerPreview from '@/components/project-career-preview.vue';
+import OtherCareerPreview from '@/components/other-career-preview.vue';
 
 const store = useEditStore();
 </script>

@@ -52,14 +52,18 @@ export interface WorkInfo {
   career: WorkCareer[];
 }
 
-export interface OtherCareer {
-  modelType: 'otherCareer';
+export interface OtherCareerItem {
   organizationOrActiveName: string;
   role: string;
-  department?: string;
   location?: string;
   startTime?: string;
   endTime?: string;
+  description?: string;
+}
+
+export interface OtherCareer {
+  modelType: 'otherCareer';
+  career: OtherCareerItem[];
 }
 
 export interface OtherSkill {
@@ -72,13 +76,18 @@ export interface OtherSkill {
 }
 
 export interface ProjectCareer {
-  modelType: 'projectCareer';
   projectName: string;
   role: string;
+  city?: string;
   location: string;
   startTime: string;
   endTime: string;
-  description: string;
+  description?: string;
+}
+
+export interface ProjectInfo {
+  modelType: 'projectInfo';
+  career: ProjectCareer[];
 }
 
 export interface SelfEvaluation {
@@ -90,10 +99,10 @@ export type CVModel =
   | BaseInfo
   | Education
   | WorkInfo
-  | ProjectCareer
+  | ProjectInfo
   | OtherCareer
   | OtherSkill
-  | (SelfEvaluation & { layout?: string });
+  | (SelfEvaluation & { layout?: string; modelTitle?: string });
 
 export type CVInfo = CVModel[];
 
