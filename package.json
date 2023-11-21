@@ -8,6 +8,10 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
+  "repository": {
+    "url": "https://github.com/hec9527/openCV",
+    "type": "github"
+  },
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
     "@wangeditor/editor": "^5.1.23",

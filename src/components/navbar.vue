@@ -1,61 +1,67 @@
 <template>
-  <div class="nav-bar">
-    <div class="content-wrap">
-      <div class="left">
-        <div class="logo" @click="router.push('/')">
-          <img src="../assets/vue.svg" />
-        </div>
-      </div>
-      <div class="center">
-        <div class="nav-items" @click="router.push('/myCv')">我的简历</div>
-        <div class="nav-items" @click="router.push('/template')">简历模板</div>
-        <div class="nav-items" @click="router.push('/edit')">编辑</div>
-      </div>
-      <div class="right"></div>
+  <div class="nav-bar" :class="{ isScrollTop }">
+    <div class="logo" @click="router.push('/')">
+      <img :src="logo" />
     </div>
+    <div class="nav-items" @click="router.push('/myCv')">我的简历</div>
+    <div class="nav-items" @click="router.push('/template')">简历模板</div>
+    <div class="nav-items" @click="router.push('/edit')">编辑简历</div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+import logo from '@/assets/vue.svg';
 
 const router = useRouter();
+
+interface IProps {
+  isScrollTop?: boolean;
+}
+
+withDefaults(defineProps<IProps>(), { isScrollTop: true });
 </script>
 
 <style lang="less">
 .nav-bar {
+  position: fixed;
+  top: 0;
+  width: 100vw;
   height: 60px;
+  z-index: 10;
+  font-size: 1.2em;
+  font-weight: 700;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0 5em;
+  border-bottom: 1px solid var(--color-gray-300);
+  background-color: #fff;
+
+  &.isScrollTop {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  > * {
+    display: flex;
+    align-items: center;
+  }
 
   .logo {
     cursor: pointer;
     overflow: hidden;
-  }
-
-  .center {
-    display: flex;
-    flex: 2;
-  }
-
-  .left {
-    flex: 1;
-  }
-
-  .right {
-    display: flex;
-    flex: 1;
+    margin-right: auto;
   }
 
   .nav-items {
     cursor: pointer;
     margin-left: 16px;
-    padding: 8px 12px;
-  }
-}
+    padding: 0 12px;
 
-.content-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
+    &:hover {
+      background-color: #f5f5f544;
+    }
+  }
 }
 </style>
