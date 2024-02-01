@@ -3,7 +3,7 @@
   <SortContainer
     title="其他经历"
     :disable-move-up="currentModelIndex === 1"
-    :disable-move-down="currentModelIndex === store.state.length - 1"
+    :disable-move-down="currentModelIndex === store.state.cvInfo.length - 1"
     @add-click="addCareer"
     @delete="store.deleteModel('otherCareer')"
     @move-top="sortModel.moveUp"
@@ -80,7 +80,9 @@ const sortModel = useSortModel('otherCareer');
 const currentModelIndex = useCurrentModelIndex('otherCareer');
 
 const otherCareer = computed(() => {
-  return store.state.find((s) => s.modelType === 'otherCareer') as OtherCareer;
+  return store.state.cvInfo.find(
+    (s) => s.modelType === 'otherCareer',
+  ) as OtherCareer;
 });
 
 const sortCareer = useSortCareer<OtherCareerItem>(otherCareer.value.career);

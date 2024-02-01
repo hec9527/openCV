@@ -1,25 +1,32 @@
 <template>
   <div class="nav-bar" :class="{ isScrollTop }">
-    <div class="logo" @click="router.push('/')">
+    <div class="logo" @click="handleLogoClick">
       <img :src="logo" />
+      <div class="logo-title">{{ projectName }}</div>
     </div>
-    <div class="nav-items" @click="router.push('/myCv')">我的简历</div>
-    <div class="nav-items" @click="router.push('/template')">简历模板</div>
-    <div class="nav-items" @click="router.push('/edit')">编辑简历</div>
+    <div class="menu">
+      <slot>
+        <div class="nav-items" @click="router.push('/template')">简历模板</div>
+        <div class="nav-items" @click="router.push('/myCv')">我的简历</div>
+        <div class="nav-items" @click="router.push('/about')">关于</div>
+      </slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import logo from '@/assets/logox196.png';
+import useScrollTop from '@/hook/useScrollTop';
 import { useRouter } from 'vue-router';
-import logo from '@/assets/vue.svg';
+import { projectName } from '../../package.json';
 
+const isScrollTop = useScrollTop();
 const router = useRouter();
 
-interface IProps {
-  isScrollTop?: boolean;
-}
-
-withDefaults(defineProps<IProps>(), { isScrollTop: true });
+const handleLogoClick = () => {
+  router.push('/');
+  document.documentElement.scrollTo({ top: 0 });
+};
 </script>
 
 <style lang="less">
@@ -27,18 +34,18 @@ withDefaults(defineProps<IProps>(), { isScrollTop: true });
   position: fixed;
   top: 0;
   width: 100vw;
-  height: 60px;
+  height: var(--navbar-height);
   z-index: 10;
-  font-size: 1.2em;
-  font-weight: 700;
+
   display: flex;
   align-items: stretch;
   justify-content: space-between;
   padding: 0 5em;
+  box-sizing: border-box;
   border-bottom: 1px solid var(--color-gray-300);
   background-color: #fff;
 
-  &.isScrollTop {
+  &.isScrollTop:not(.fixed) {
     border-color: transparent;
     background: transparent;
   }
@@ -48,20 +55,34 @@ withDefaults(defineProps<IProps>(), { isScrollTop: true });
     align-items: center;
   }
 
+  .menu {
+    margin-left: auto;
+  }
+
   .logo {
+    font-size: 1.2em;
+    font-weight: 700;
     cursor: pointer;
     overflow: hidden;
-    margin-right: auto;
+
+    > img {
+      height: 80%;
+      width: auto;
+    }
+  }
+
+  .logo-title {
+    background: var(--hero-title-background);
+    color: transparent;
+    background-clip: text;
   }
 
   .nav-items {
     cursor: pointer;
     margin-left: 16px;
     padding: 0 12px;
-
-    &:hover {
-      background-color: #f5f5f544;
-    }
+    font-size: 0.9em;
+    font-weight: 500;
   }
 }
 </style>

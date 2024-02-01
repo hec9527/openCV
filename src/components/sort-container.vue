@@ -95,6 +95,7 @@ defineProps<IProps>();
     top: 4px;
     right: 0;
     height: 22px;
+    font-size: 12px;
 
     > div {
       position: relative;

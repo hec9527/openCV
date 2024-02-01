@@ -1,7 +1,13 @@
 <template>
   <div class="edit-page">
+    <navbar class="fixed">
+      <div class="nav-items">
+        <cv-theme>主题</cv-theme>
+      </div>
+    </navbar>
+
     <div class="page-main">
-      <div v-for="data in store.state" :key="data.modelType">
+      <div v-for="data in cvInfo" :key="data.modelType">
         <BaseInfoPreview v-if="data.modelType === 'baseInfo'" />
         <EducationPreview v-else-if="data.modelType === 'education'" />
         <WorkCareerPreview v-else-if="data.modelType === 'workInfo'" />
@@ -18,6 +24,8 @@
 
 <script lang="ts" setup>
 import { useEditStore } from '@/store/index';
+import navbar from '@/components/navbar.vue';
+import cvTheme from '@/components/cv-theme.vue';
 
 import BaseInfoPreview from '@comp/baseInfo-preview.vue';
 import EducationPreview from '@comp/education-preview.vue';
@@ -28,15 +36,17 @@ import OtherSkillPreview from '@/components/other-skill-preview.vue';
 import selfEvaluationPreview from '@/components/self-evaluation-preview.vue';
 
 const store = useEditStore();
+
+const cvInfo = store.state.cvInfo;
 </script>
 
 <style lang="less">
 .edit-page {
-  background-color: #dee1e5;
+  background-color: var(--color-gray-400);
 
   .page-main {
     position: relative;
-    margin: 24px auto;
+    margin: 80px auto;
     width: var(--preview-width);
     background-color: #fff;
     box-shadow: 0 0 10px 4px #3331;

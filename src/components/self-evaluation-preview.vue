@@ -3,14 +3,14 @@
   <SortContainer
     title="自我介绍"
     :disable-move-up="currentModelIndex === 1"
-    :disable-move-down="currentModelIndex === store.state.length - 1"
+    :disable-move-down="currentModelIndex === store.state.cvInfo.length - 1"
     @delete="store.deleteModel('otherSkill')"
     @move-top="sortModel.moveUp"
     @move-down="sortModel.moveDown"
   >
     <div class="self-evaluation-preview">
       <div
-        class="self-evaluation-wrap model-section"
+        class="self-evaluation-wrap model-section-description"
         @click="visible = true"
         v-html="selfEvaluation.description"
       ></div>
@@ -42,14 +42,14 @@ const sortModel = useSortModel('selfEvaluation');
 const currentModelIndex = useCurrentModelIndex('selfEvaluation');
 
 const selfEvaluation = computed(() => {
-  return store.state.find(
+  return store.state.cvInfo.find(
     (s) => s.modelType === 'selfEvaluation',
   ) as SelfEvaluation;
 });
 
 const saveToStore = (data: string) => {
   console.log(data);
-
+  selfEvaluation.value.description = data;
   visible.value = false;
 };
 </script>
@@ -57,7 +57,5 @@ const saveToStore = (data: string) => {
 <style lang="less">
 .self-evaluation-wrap {
   padding: 12px 0;
-  //
-  //
 }
 </style>

@@ -8,7 +8,7 @@ export default function useDeleteModel(modelKey: ModelKey) {
 
   const del = () => {
     if (index != undefined) {
-      store.state.splice(index.value, 1);
+      store.state.cvInfo.splice(index.value, 1);
     }
   };
 

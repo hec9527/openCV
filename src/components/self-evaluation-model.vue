@@ -11,7 +11,7 @@
   >
     <ElForm ref="formRef" label-position="top">
       <ElRow>
-        <ElCol :span="22">
+        <ElCol :span="24">
           <ElFormItem label="自我介绍" prop="projectName">
             <RichTextEditor
               ref="editor"

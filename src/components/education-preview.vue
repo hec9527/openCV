@@ -4,7 +4,7 @@
     :model-key="'education'"
     title="教育经历"
     :disable-move-up="currentModelIndex === 1"
-    :disable-move-down="currentModelIndex === store.state.length - 1"
+    :disable-move-down="currentModelIndex === store.state.cvInfo.length - 1"
     @add-click="addCareer"
     @delete="store.deleteModel('education')"
     @move-top="sortModel.moveUp"
@@ -80,7 +80,9 @@ const sortModel = useSortModel('education');
 const currentModelIndex = useCurrentModelIndex('education');
 
 const educations = computed(() => {
-  return store.state.find((s) => s.modelType === 'education') as Education;
+  return store.state.cvInfo.find(
+    (s) => s.modelType === 'education',
+  ) as Education;
 });
 
 const sortCareer = useSortCareer<EducationCareer>(educations.value.career);

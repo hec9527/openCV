@@ -1,11 +1,12 @@
 import { createWebHashHistory, createRouter, RouteRecordRaw } from 'vue-router';
+import { projectName } from '../../package.json';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('../page/home.vue'),
     alias: '',
-    meta: { title: '超级简历' },
+    meta: { title: projectName },
   },
   {
     path: '/myCV',
@@ -21,6 +22,11 @@ const routes: RouteRecordRaw[] = [
     path: '/edit',
     component: () => import('../page/edit.vue'),
     meta: { title: '编辑简历' },
+  },
+  {
+    path: '/about',
+    component: () => import('../page/about.vue'),
+    meta: { title: '关于' },
   },
 ];
 

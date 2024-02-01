@@ -28,7 +28,7 @@ type IProps = {
 };
 
 export type IExpose = {
-  getContent(): string;
+  getContent(): string | undefined;
 };
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -54,9 +54,7 @@ watch(props, () => {
   editorRef.value?.setHtml(props.content);
 });
 
-defineExpose({
-  getContent,
-});
+defineExpose<IExpose>({ getContent });
 
 onBeforeUnmount(() => {
   const editor = editorRef.value;

@@ -3,7 +3,7 @@
   <SortContainer
     title="项目经历"
     :disable-move-up="currentModelIndex === 1"
-    :disable-move-down="currentModelIndex === store.state.length - 1"
+    :disable-move-down="currentModelIndex === store.state.cvInfo.length - 1"
     @add-click="addCareer"
     @delete="store.deleteModel('workInfo')"
     @move-top="sortModel.moveUp"
@@ -77,7 +77,9 @@ const sortModel = useSortModel('projectInfo');
 const currentModelIndex = useCurrentModelIndex('projectInfo');
 
 const projects = computed(() => {
-  return store.state.find((s) => s.modelType === 'projectInfo') as ProjectInfo;
+  return store.state.cvInfo.find(
+    (s) => s.modelType === 'projectInfo',
+  ) as ProjectInfo;
 });
 
 const currentCareer = computed(() => {

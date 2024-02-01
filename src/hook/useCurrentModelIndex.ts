@@ -6,7 +6,9 @@ export default function (modelKey: ModelKey) {
   const store = useEditStore();
 
   const index = computed(() => {
-    return store.state.findIndex((model) => model.modelType === modelKey);
+    return store.state.cvInfo.findIndex(
+      (model) => model.modelType === modelKey,
+    );
   });
 
   return index;

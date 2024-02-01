@@ -1,6 +1,5 @@
 /* stylelint-disable selector-class-pattern */
 :root {
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   // color-scheme: light dark;
@@ -42,8 +41,19 @@
   --third-color: #bdcdd6;
   --fourth-color: #eee9da;
 
+  // size
+  --navbar-height: 60px;
+
   //
-  --hero-title-background: linear-gradient(120deg, #bd34fe 30%, #41d1ff);
+  --hero-title-background: linear-gradient(145deg, #bd34fe, #41d1ff);
+
+  font-family: 'PingFang SC', miui, system-ui, -apple-system, BlinkMacSystemFont,
+    'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.font-bold {
+  font-family: PingFangSC-Medium, 'PingFang SC', miui, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 #app,
@@ -99,17 +109,20 @@ h1 {
   .model-section {
     &-title {
       display: flex;
+      align-items: center;
       justify-content: space-between;
       padding: 8px 0 4px;
 
       .right,
       .left {
         display: flex;
+        align-items: center;
       }
 
       .main-title {
-        font-weight: 12px;
+        font-size: 14px;
         font-weight: 600;
+        .font-bold();
       }
 
       .right span {
@@ -128,15 +141,14 @@ h1 {
 
         &::before {
           content: '-';
-        }
-
-        span {
-          margin-left: 4px;
+          margin: 0 4px;
         }
       }
     }
 
     &-description {
+      font-size: 12px;
+
       ul {
         margin: 0;
         padding-left: 2em;
@@ -147,6 +159,10 @@ h1 {
         margin: 0;
         line-height: 1.4;
       }
+    }
+
+    .skill-line {
+      font-size: 12px;
     }
   }
 }

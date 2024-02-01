@@ -39,7 +39,7 @@ const store = useEditStore();
 const visible = ref(false);
 const state = computed(
   () =>
-    (store.state.find((model) => model.modelType === 'baseInfo') ||
+    (store.state.cvInfo.find((model) => model.modelType === 'baseInfo') ||
       {}) as BaseInfo,
 );
 
@@ -90,6 +90,7 @@ const saveToStore = (data: BaseInfo) => {
     height: 86px;
     border: none;
     outline: none;
+    object-fit: cover;
   }
 }
 </style>

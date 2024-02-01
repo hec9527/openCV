@@ -3,7 +3,7 @@
   <SortContainer
     title="其他"
     :disable-move-up="currentModelIndex === 1"
-    :disable-move-down="currentModelIndex === store.state.length - 1"
+    :disable-move-down="currentModelIndex === store.state.cvInfo.length - 1"
     @delete="store.deleteModel('otherSkill')"
     @move-top="sortModel.moveUp"
     @move-down="sortModel.moveDown"
@@ -55,7 +55,9 @@ const sortModel = useSortModel('otherSkill');
 const currentModelIndex = useCurrentModelIndex('otherSkill');
 
 const otherSkill = computed(() => {
-  return store.state.find((s) => s.modelType === 'otherSkill') as OtherSkill;
+  return store.state.cvInfo.find(
+    (s) => s.modelType === 'otherSkill',
+  ) as OtherSkill;
 });
 
 const saveToStore = (data: Omit<OtherSkill, 'modelType'>) => {

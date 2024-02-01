@@ -7,7 +7,7 @@ import useCurrentModelIndex from './useCurrentModelIndex';
 export default function useSortModel(modelKey: ModelKey) {
   const currentIndex = useCurrentModelIndex(modelKey);
   const store = useEditStore();
-  const maxIndex = computed(() => store.state.length - 1);
+  const maxIndex = computed(() => store.state.cvInfo.length - 1);
 
   const moveDown = () => {
     const index = currentIndex.value;
@@ -16,9 +16,9 @@ export default function useSortModel(modelKey: ModelKey) {
       return;
     }
 
-    const current = store.state[index];
-    store.state[index] = store.state[index + 1];
-    store.state[index + 1] = current;
+    const current = store.state.cvInfo[index];
+    store.state.cvInfo[index] = store.state.cvInfo[index + 1];
+    store.state.cvInfo[index + 1] = current;
   };
 
   const moveUp = () => {
@@ -26,9 +26,9 @@ export default function useSortModel(modelKey: ModelKey) {
     if (index <= 1) {
       return;
     }
-    const current = store.state[index];
-    store.state[index] = store.state[index - 1];
-    store.state[index - 1] = current;
+    const current = store.state.cvInfo[index];
+    store.state.cvInfo[index] = store.state.cvInfo[index - 1];
+    store.state.cvInfo[index - 1] = current;
   };
 
   return { moveDown, moveUp };

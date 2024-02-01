@@ -78,4 +78,59 @@ export const JobPosition = [
   '应用支持工程师',
   '金融顾问',
   '市场营销助理',
+] as const;
+
+export const Industry = [
+  '互联网',
+  '金融',
+  '咨询',
+  '银行',
+  '传媒',
+  '房地产',
+  '电子商务',
+  '通信',
+  '游戏',
+  '制造业',
+  '汽车',
+  '物流',
+  '教育',
+  '保险',
+  '广告',
+  '医药',
+  '法律',
+] as const;
+
+export const Major = [
+  '软件工程',
+  '工商管理',
+  '金融学',
+  '计算机科学与技术',
+  '经济学',
+  '传播学',
+  '市场营销',
+  '会计学',
+  '艺术与设计',
+  '电子信息工程',
+  '教育学',
+  '语言类',
+] as const;
+
+export type Tags =
+  | (typeof Industry)[number]
+  | (typeof Major)[number]
+  | (typeof JobPosition)[number];
+
+export const Template: { catalog: string; tags: readonly Tags[] }[] = [
+  {
+    catalog: '行业',
+    tags: Industry,
+  },
+  {
+    catalog: '职位',
+    tags: JobPosition,
+  },
+  {
+    catalog: '专业',
+    tags: Major,
+  },
 ];

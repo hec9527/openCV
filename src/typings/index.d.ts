@@ -1,3 +1,5 @@
+import type { Tags } from '@/constants';
+
 export type AnyFunction = (...args: any) => any;
 export type AnyObject = { [K in string | number | symbol]: any };
 
@@ -105,4 +107,17 @@ export type CVModel =
 
 export type CVInfo = CVModel[];
 
+export type ITemplate = {
+  title: string;
+  tags: Tags[];
+  cvInfo: CVInfo;
+};
+
 export type ModelKey = CVModel['modelType'];
+
+// cache data in indexDB or localStorage
+export type MyTemplate = ITemplate & {
+  uuid: string;
+  createTime: string;
+  updateTime: string;
+};
